@@ -17,20 +17,21 @@ export default function App() {
   const ballLeft = screenWidth / 2;
   const [ballBottom, setBallBottom] = useState(screenHeight / 2);
   const [obstaclesLeft, setObstaclesLeft] = useState(screenWidth);
-  const [obstaclesNegHeight, setObstaclesNegHeight] = useState(0);
-  const [obstaclesNegHeightTwo, setObstaclesNegHeightTwo] = useState(0);
   const [obstaclesLeftTwo, setObstaclesLeftTwo] = useState(
     screenWidth + screenWidth / 2 + 30
   );
+  const [obstaclesNegHeight, setObstaclesNegHeight] = useState(0);
+  const [obstaclesNegHeightTwo, setObstaclesNegHeightTwo] = useState(0);
+
   const obstacleWidth = 60;
-  const obstacleHeight = screenWidth * 1;
+  const obstacleHeight = 461;
   const gap = 150;
   const gravity = 4;
   let gameTimerId;
   let obstaclesLeftTimerId;
   let obstaclesLeftTimerIdTwo;
   const [isGameOver, setIsGameOver] = useState(false);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(10);
   const backGroundImage = require('./assets/background.jpg');
 
   // Ball Falling Logic
@@ -106,12 +107,16 @@ export default function App() {
     }
   });
 
+  // Game Over Logic
+
   const gameOver = () => {
     clearInterval(gameTimerId);
     clearInterval(obstaclesLeftTimerId);
     clearInterval(obstaclesLeftTimerIdTwo);
     setIsGameOver(true);
   };
+
+  // Restart Game Logic
 
   const restartGame = () => {
     setBallBottom(screenHeight / 2);
@@ -120,7 +125,7 @@ export default function App() {
     setObstaclesLeftTwo(screenWidth + screenWidth / 2 + 30);
     setObstaclesNegHeightTwo(-Math.random() * 100);
     setIsGameOver(false);
-    setScore(0);
+    setScore(10);
   };
 
   return (
