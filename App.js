@@ -1,11 +1,12 @@
 import react, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
   TouchableWithoutFeedback,
+  ImageBackground,
+  Button,
 } from 'react-native';
 import { Ball } from './components/Ball';
 import Obstacles from './components/Obstacles';
@@ -22,14 +23,15 @@ export default function App() {
     screenWidth + screenWidth / 2 + 30
   );
   const obstacleWidth = 60;
-  const obstacleHeight = 400;
+  const obstacleHeight = screenWidth * 1;
   const gap = 150;
-  const gravity = 3;
+  const gravity = 4;
   let gameTimerId;
   let obstaclesLeftTimerId;
   let obstaclesLeftTimerIdTwo;
   const [isGameOver, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const backGroundImage = require('./assets/background.jpg');
 
   // Ball Falling Logic
   useEffect(() => {
@@ -45,8 +47,7 @@ export default function App() {
 
   const jump = () => {
     if (!isGameOver && ballBottom < screenHeight) {
-      setBallBottom((ballBottom) => ballBottom + 30);
-      console.log('jumped');
+      setBallBottom((ballBottom) => ballBottom + 35);
     }
   };
 
@@ -112,9 +113,19 @@ export default function App() {
     setIsGameOver(true);
   };
 
+  const restartGame = () => {
+    setBallBottom(screenHeight / 2);
+    setObstaclesLeft(screenWidth);
+    setObstaclesNegHeight(-Math.random() * 200);
+    setObstaclesLeftTwo(screenWidth + screenWidth / 2 + 30);
+    setObstaclesNegHeightTwo(-Math.random() * 100);
+    setIsGameOver(false);
+    setScore(0);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={jump}>
-      <View style={styles.container}>
+      <ImageBackground source={backGroundImage} style={styles.container}>
         <Ball ballBottom={ballBottom} ballLeft={ballLeft} />
         <Obstacles
           color={'green'}
@@ -133,18 +144,30 @@ export default function App() {
           randomBottom={obstaclesNegHeightTwo}
         />
         {isGameOver && (
-          <Text
-            style={{
-              marginBottom: 200,
-              backgroundColor: 'red',
-              padding: 20,
-              borderRadius: 10,
-            }}
-          >
-            Score: {score}
-          </Text>
+          <>
+            <Text
+              style={{
+                marginBottom: 400,
+                backgroundColor: 'red',
+                padding: 20,
+                borderRadius: 10,
+              }}
+            >
+              Score: {score}
+            </Text>
+            <View
+              style={{
+                marginBottom: -300,
+                width: '40%',
+                borderRadius: 10,
+                overflow: 'hidden',
+              }}
+            >
+              <Button color={'blue'} title='Restart' onPress={restartGame} />
+            </View>
+          </>
         )}
-      </View>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }
