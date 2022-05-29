@@ -115,7 +115,6 @@ export default function App() {
   return (
     <TouchableWithoutFeedback onPress={jump}>
       <View style={styles.container}>
-        {isGameOver && <Text style={{ marginTop: 50 }}>Score: {score}</Text>}
         <Ball ballBottom={ballBottom} ballLeft={ballLeft} />
         <Obstacles
           color={'green'}
@@ -133,6 +132,18 @@ export default function App() {
           gap={gap}
           randomBottom={obstaclesNegHeightTwo}
         />
+        {isGameOver && (
+          <Text
+            style={{
+              marginBottom: 200,
+              backgroundColor: 'red',
+              padding: 20,
+              borderRadius: 10,
+            }}
+          >
+            Score: {score}
+          </Text>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
